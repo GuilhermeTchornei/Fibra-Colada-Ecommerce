@@ -1,7 +1,14 @@
+import MainBanner from "../components/MainBanner";
+import ProductsContainer from "../components/ProductsContainer";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Home</h1>
-    </main>
+    <div className="max-w-max w-full flex min-h-screen flex-col justify-start px-10">
+      <MainBanner />
+      <ProductsContainer />
+      <ProductsContainer />
+      <ProductsContainer />
+
+    </div>
   )
 }
