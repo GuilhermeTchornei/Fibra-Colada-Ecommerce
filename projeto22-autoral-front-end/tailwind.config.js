@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         'orange': '#f27a28',
+        'dark-orange': '#c05b18',
         'green': '#00a390'
       },
       backgroundImage: {
@@ -18,6 +19,15 @@ module.exports = {
       },
       maxWidth: {
         max: '1480px',
+      },
+      keyframes: {
+        'fade': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '100'}
+        }
+      },
+      animation: {
+        'fade-in': 'fade 100ms ease-in-out'
       }
     },
   },

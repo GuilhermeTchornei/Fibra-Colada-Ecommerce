@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import image from "@/Products/325995815_747855136935675_8926260453479837050_n.jpg"
+import image from "@/Products/325995815_747855136935675_8926260453479837050_n.jpg";
 
 
 export default function ImageContainer() {
