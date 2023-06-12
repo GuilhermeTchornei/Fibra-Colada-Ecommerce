@@ -2,9 +2,17 @@
 import { Person, Search, Shopping } from '@/components/UI/icons';
 import ProfileMenu from './profileMenu';
 import { useState } from 'react';
+import CartResume from './cartResume';
+import { useRouter } from 'next/navigation';
 
 export default function IconsBar() {
     const [openProfile, setOpenProfile] = useState(false);
+    const [openCart, setOpenCart] = useState(false);
+    const router = useRouter();
+
+    function handleClick() {
+        router.push('/cart');
+    }
 
 
     return (
@@ -23,10 +31,13 @@ export default function IconsBar() {
                     openProfile && <ProfileMenu setOpenProfile={(bool: boolean) => setOpenProfile(bool) } />
                 }
             </li>
-            <li>
-                <button className="h-7 w-7">
+            <li className='relative'>
+                <button className="h-7 w-7" onClick={handleClick} onMouseOver={() => setOpenCart(true)} onMouseOut={() => setOpenCart(false)}>
                     <Shopping />
                 </button>
+                {
+                    openCart && <CartResume setOpenCart={(bool: boolean) => setOpenCart(bool)} />
+                }
             </li>
         </ul>
     )

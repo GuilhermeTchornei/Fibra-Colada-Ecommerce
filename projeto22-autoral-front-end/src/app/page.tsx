@@ -1,5 +1,5 @@
 import MainBanner from "../components/MainBanner";
-import ProductsContainer from "../components/ProductsContainer";
+import ProductsContainer from "../components/ProductContainer";
 
 export default function Home() {
   return (
