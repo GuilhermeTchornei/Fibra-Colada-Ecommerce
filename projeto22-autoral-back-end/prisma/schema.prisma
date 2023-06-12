@@ -28,6 +28,54 @@ model admin {
 }
 
 model products {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(100)
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(100) @unique
+  products_categories products_categories[]
+  products_variations products_variations[]
+}
+
+model categories {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(20) @unique
+  products_categories products_categories[]
+}
+
+model products_categories {
+  id          Int        @id @default(autoincrement())
+  product_id  Int
+  product     products   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  category_id Int
+  categories  categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
+}
+
+model sizes {
+  id                  Int                   @id @default(autoincrement())
+  size                String                @db.VarChar(10) @unique
+  products_variations products_variations[]
+}
+
+model stamps {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(20)
+  image               String                @db.VarChar()
+  products_variations products_variations[]
+}
+
+model products_variations {
+  id                         Int                          @id @default(autoincrement())
+  product_id                 Int
+  product                    products                     @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  size_id                    Int
+  size                       sizes                        @relation(fields: [size_id], references: [id], onDelete: Cascade)
+  stamp_id                   Int
+  stamp                      stamps                       @relation(fields: [stamp_id], references: [id], onDelete: Cascade)
+  price                      Int
+  products_variations_images products_variations_images[]
+  enabled                    Boolean                      @default(true)
+}
+
+model products_variations_images {
+  id                   Int                 @id @default(autoincrement())
+  product_variation_id Int
+  product_variation    products_variations @relation(fields: [product_variation_id], references: [id], onDelete: Cascade)
 }
