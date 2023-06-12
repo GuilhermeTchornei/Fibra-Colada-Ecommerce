@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image";
 import SizesContainer from "@/components/Product/SizesContainer";
 import StampContainer from "@/components/Product/StampContainer";
 import { Button } from "@mui/material";
