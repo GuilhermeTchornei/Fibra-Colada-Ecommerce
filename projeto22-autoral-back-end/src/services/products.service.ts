@@ -8,4 +8,8 @@ export class ProductsService {
     async FindAll() {
         return await this.productsRepository.FindAll();
     }
+
+    async FindUniqueById(id: number) {
+        return await this.productsRepository.findUnique(id);
+    }
 }
