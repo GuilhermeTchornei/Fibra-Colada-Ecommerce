@@ -24,7 +24,7 @@ export default function ProductsContainer() {
             <div className="h-80 gap-3 overflow-hidden flex">
                 {
                     products ?
-                        products.map(p => <Product id={p.id} name={p.name} price={p.price} />) :
+                        products.map(p => <Product key={p.id} id={p.id} name={p.name} price={p.price} />) :
                         null
                 }
             </div>
