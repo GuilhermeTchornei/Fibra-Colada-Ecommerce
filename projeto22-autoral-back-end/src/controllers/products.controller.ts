@@ -1,7 +1,7 @@
 import { Roles } from "@/decorators/roles.decorator";
 import { AuthGuard } from "@/middlewares/auth.guard";
 import { ProductsService } from "@/services/products.service";
-import { Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 
 @Controller('products')
 export class ProductsController{
@@ -19,5 +19,10 @@ export class ProductsController{
     @Get()
     async getAll() {
         return await this.productsService.FindAll();
+    }
+
+    @Get(':id')
+    async getOne(@Param() id: number) {
+        return await this.productsService.FindUniqueById(id);
     }
 }
