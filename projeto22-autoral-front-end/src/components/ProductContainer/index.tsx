@@ -1,5 +1,5 @@
 "use client"
-import { useProducts } from "@/Hooks/Products";
+import { useAllProducts } from "@/hooks/Products";
 import Product from "../ProductButton";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ export default function ProductsContainer() {
     useEffect(() => {
         const prod = async () => {
             try {
-                const response = await useProducts();
+                const response = await useAllProducts();
                 setProducts(response.data);
             } catch (error) {
                 console.log(error)
