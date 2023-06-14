@@ -18,6 +18,7 @@ model users {
   phone     String   @db.VarChar(11)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  carts     carts[]
 }
 
 model admin {
@@ -29,14 +30,14 @@ model admin {
 
 model products {
   id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(100) @unique
+  name                String                @unique @db.VarChar(100)
   products_categories products_categories[]
   products_variations products_variations[]
 }
 
 model categories {
   id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(20) @unique
+  name                String                @unique @db.VarChar(20)
   products_categories products_categories[]
 }
 
@@ -50,7 +51,7 @@ model products_categories {
 
 model sizes {
   id                  Int                   @id @default(autoincrement())
-  size                String                @db.VarChar(10) @unique
+  size                String                @unique @db.VarChar(10)
   products_variations products_variations[]
 }
 
@@ -72,10 +73,28 @@ model products_variations {
   price                      Int
   products_variations_images products_variations_images[]
   enabled                    Boolean                      @default(true)
+  cart_products              cart_products[]
 }
 
 model products_variations_images {
   id                   Int                 @id @default(autoincrement())
   product_variation_id Int
   product_variation    products_variations @relation(fields: [product_variation_id], references: [id], onDelete: Cascade)
+  image                String              @unique @db.VarChar()
+}
+
+model carts {
+  id            Int             @id @default(autoincrement())
+  user_id       Int
+  users         users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  cart_products cart_products[]
+}
+
+model cart_products {
+  id                   Int                 @id @default(autoincrement())
+  cart_id              Int
+  cart                 carts               @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  product_variation_id Int
+  product_variation    products_variations @relation(fields: [product_variation_id], references: [id], onDelete: Cascade)
+  quantity             Int                 @default(1)
 }
