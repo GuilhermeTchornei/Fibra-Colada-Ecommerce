@@ -1,7 +1,7 @@
 import { Roles } from "@/decorators/roles.decorator";
 import { AuthGuard } from "@/middlewares/auth.guard";
 import { ProductsService } from "@/services/products.service";
-import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { BadRequestException, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 
 @Controller('products')
 export class ProductsController{
@@ -21,8 +21,10 @@ export class ProductsController{
         return await this.productsService.FindAll();
     }
 
-    @Get(':id')
-    async getOne(@Param() id: number) {
-        return await this.productsService.FindUniqueById(id);
+    @Get('/:id')
+    async getOne(@Param('id') id: string) {
+        const numberId = parseInt(id);
+        if (isNaN(numberId)) throw new BadRequestException();
+        return await this.productsService.FindUniqueById(numberId);
     }
 }
