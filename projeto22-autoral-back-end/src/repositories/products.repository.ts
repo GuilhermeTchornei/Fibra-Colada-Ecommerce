@@ -58,6 +58,7 @@ export class ProductsRepository {
             stamps: stamps,
             variations: product.products_variations.map(p => ({
                 id: p.id,
+                price: p.price / 100,
                 size: p.size.size,
                 stampName: p.stamp.name,
                 stampImage: p.stamp.image,
