@@ -2,7 +2,7 @@ import UserReq from "@/interfaces/UserRequest.interface";
 import { CartProductDto } from "@/interfaces/dto/cart.interface";
 import { AuthGuard } from "@/middlewares/auth.guard";
 import { CartService } from "@/services/cart.service";
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Request, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Request, UseGuards } from "@nestjs/common";
 
 @Controller('cart')
 export class CartController {
@@ -18,8 +18,12 @@ export class CartController {
 
     @UseGuards(AuthGuard)
     @Post()
-    async insertCartProduct(@Req() { userId }: UserReq, @Body() { product_variation_id }: CartProductDto) {
-        product_variation_id = Number(product_variation_id);
-        await this.cartService.insertProduct(userId, {product_variation_id});
+    async insertCartProduct(@Req() { userId }: UserReq, @Body() cartProduct: CartProductDto) {
+        try {
+            await this.cartService.insertProduct(userId, cartProduct);
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException();
+        }
     }
 }
