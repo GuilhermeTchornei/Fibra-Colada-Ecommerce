@@ -85,9 +85,16 @@ model products_variations_images {
 
 model carts {
   id            Int             @id @default(autoincrement())
-  user_id       Int
+  user_id       Int             @unique
   users         users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
   cart_products cart_products[]
+}
+
+enum cart_product_status {
+  IN_CART
+  ORDERED
+  FINISHED
+  CANCELLED
 }
 
 model cart_products {
@@ -97,4 +104,5 @@ model cart_products {
   product_variation_id Int
   product_variation    products_variations @relation(fields: [product_variation_id], references: [id], onDelete: Cascade)
   quantity             Int                 @default(1)
+  status               cart_product_status @default(IN_CART)
 }

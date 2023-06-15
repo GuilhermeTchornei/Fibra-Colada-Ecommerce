@@ -1,11 +1,12 @@
 import { PrismaService } from "@/config/prisma.service";
 import { Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class CartRepository{
     constructor(private readonly prisma: PrismaService) { }
 
-    async findFirstByUserId(userId: number) {
+    async findCartWithProductsByUserId(userId: number) {
         const cart = await this.prisma.carts.findFirst({
             include: {
                 cart_products: {
@@ -58,5 +59,19 @@ export class CartRepository{
                 image: p.product_variation.products_variations_images[0].image,
             }))
         };
+    }
+
+    async findCartByUser(userId: number) {
+        return await this.prisma.carts.findFirst({
+            where: {
+                user_id: userId
+            }
+        })
+    }
+
+    async insertProducts(cart_products: Prisma.cart_productsUncheckedCreateInput) {
+        return await this.prisma.cart_products.create({
+            data: cart_products
+        });
     }
 }
