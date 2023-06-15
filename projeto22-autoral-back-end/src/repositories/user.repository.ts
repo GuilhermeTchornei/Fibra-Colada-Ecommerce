@@ -7,7 +7,14 @@ export class UserRepository{
     constructor(private readonly prisma: PrismaService) { }
 
     async create(data: Prisma.usersCreateInput) {
-        await this.prisma.users.create({ data });
+        await this.prisma.users.create({
+            data: {
+                ...data,
+                carts: {
+                    create: [{}]
+                }
+            }
+        });
     }
 
     async findFirst(where: Prisma.usersWhereInput): Promise<users> {
