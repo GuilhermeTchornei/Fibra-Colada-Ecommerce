@@ -1,6 +1,5 @@
 "use client"
 import { Button } from "@mui/material";
-import { useState } from "react";
 
 interface props {
     selectedSize: string,
