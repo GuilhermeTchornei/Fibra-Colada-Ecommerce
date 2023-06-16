@@ -1,7 +1,6 @@
 "use client"
-import { cookies } from "next/dist/client/components/headers";
 import { ScriptProps } from "next/script";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
     userName: string,
@@ -16,7 +15,7 @@ interface UserContextInterface {
 const UserContext = createContext<UserContextInterface | undefined>(undefined);
 
 export default function UserProvider({ children }: ScriptProps) {
-    const [user, setUser] = useState<User | undefined>(undefined);
+    const [user, setUser] = useState<User>();
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

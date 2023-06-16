@@ -1,7 +1,7 @@
 import api from "@/config/api";
 import useAsync from "../useAsync";
 import apiProduct from "@/services/products";
-import ProductPageInterface from "@/interfaces/ProductPage";
+import ProductPageInterface from "@/interfaces/productPage";
 
 export async function useAllProducts() {
     const response = await api.get('/products');

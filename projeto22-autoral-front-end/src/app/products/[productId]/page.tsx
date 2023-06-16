@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import ImageContainer from "@/components/Product/ImageContainer";
 import { useOneProduct } from "@/hooks/Products";
 import { useEffect, useState } from "react";
+import UseSaveCartProduct from "@/hooks/Cart/useSaveCartProduct";
 
 export default function ProductPage({ params }: { params: { productId: number } }) {
     const { product, loading, error } = useOneProduct(params.productId);
@@ -13,6 +14,7 @@ export default function ProductPage({ params }: { params: { productId: number } 
     const [possiblesStamps, setPossiblesStamps] = useState<string[]>([]);
     const [selectedSize, setSelectedSize] = useState<string>('');
     const [possiblesSizes, setPossiblesSizes] = useState<string[]>([]);
+    const { postProduct } = UseSaveCartProduct();
 
     useEffect(() => {
         if (!product) return;
@@ -36,6 +38,18 @@ export default function ProductPage({ params }: { params: { productId: number } 
         return null;
     }
 
+    async function handleClick() {
+        try {
+            if (selectecStamp && selectedSize && product) {
+                const status = await postProduct({product_variation_id: product.variations[0].id});
+                console.log(status);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
 
     return (
         <div className="flex flex-col items-center py-6">
@@ -53,7 +67,7 @@ export default function ProductPage({ params }: { params: { productId: number } 
                     <StampContainer possiblesStamps={possiblesStamps} selectedStamp={selectecStamp}
                         setSelectedStamp={(stamp: string) => setSelectedStamp(stamp)} stamps={product.stamps} />
                     <div className="w-full h-[1px] bg-gray-300 self-center my-4" />
-                    <Button variant="contained" className="bg-orange hover:bg-dark-orange">
+                    <Button onClick={handleClick} variant="contained" className="bg-orange hover:bg-dark-orange">
                         Comprar
                     </Button>
                 </div>

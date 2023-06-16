@@ -1,14 +1,26 @@
 "use client"
 import { Person, Search, Shopping } from '@/components/UI/icons';
 import ProfileMenu from './profileMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CartResume from './cartResume';
 import { useRouter } from 'next/navigation';
+import UseCartProducts from '@/hooks/Cart/useCartProducts';
+import { useUser } from '@/contexts/UserContext';
 
 export default function IconsBar() {
+    const { user } = useUser();
     const [openProfile, setOpenProfile] = useState(false);
     const [openCart, setOpenCart] = useState(false);
     const router = useRouter();
+
+    const {cart, getCart, loading, error} = UseCartProducts();
+
+    useEffect(() => {
+        const getCartAsync = async () => {
+            await getCart();
+        }
+        getCartAsync();
+    }, [user]);
 
     function handleClick() {
         router.push('/cart');
@@ -36,7 +48,7 @@ export default function IconsBar() {
                     <Shopping />
                 </button>
                 {
-                    openCart && <CartResume setOpenCart={(bool: boolean) => setOpenCart(bool)} />
+                    openCart && <CartResume setOpenCart={(bool: boolean) => setOpenCart(bool)} cart={cart} loading={loading} />
                 }
             </li>
         </ul>

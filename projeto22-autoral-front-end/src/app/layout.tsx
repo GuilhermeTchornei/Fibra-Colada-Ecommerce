@@ -24,10 +24,11 @@ export default function RootLayout({
       <body className={`${roboto.className} min-h-[100vh]`}>
         <Providers>
           <Header />
+
+          <main className='flex justify-center'>
+            {children}
+          </main>
         </Providers>
-        <main className='flex justify-center'>
-          {children}
-        </main>
       </body>
     </html>
   )

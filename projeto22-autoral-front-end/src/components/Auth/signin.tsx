@@ -19,8 +19,9 @@ export default function Signin({ setHaveAccount }: { setHaveAccount: () => void 
         e.preventDefault();
         try {
             const response = await useSignin(login);
-            setShowOverlay(false);
             setUser(response.data);
+            setShowOverlay(false);
+
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 setErrorMessage(error.response?.data.message);
