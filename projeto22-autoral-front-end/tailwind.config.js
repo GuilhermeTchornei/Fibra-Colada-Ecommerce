@@ -6,8 +6,13 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-
     extend: {
+      colors: {
+        'orange': '#f27a28',
+        'dark-orange': '#c05b18',
+        'green': '#00a390',
+        'dark-green': '#008A7A'
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -15,6 +20,15 @@ module.exports = {
       },
       maxWidth: {
         max: '1480px',
+      },
+      keyframes: {
+        'fade': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '100'}
+        }
+      },
+      animation: {
+        'fade-in': 'fade 100ms ease-in-out'
       }
     },
   },

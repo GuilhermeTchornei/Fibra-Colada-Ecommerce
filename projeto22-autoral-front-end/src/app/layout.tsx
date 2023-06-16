@@ -1,11 +1,11 @@
 import './globals.css';
 import { Roboto } from 'next/font/google';
-import Header from '@/app/components/header';
-import Providers from './contexts';
+import Header from '@/components/Header';
+import Providers from '@/contexts';
 
 const roboto = Roboto({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['300', '400', '500', '700'],
   display: 'swap'
 })
 
@@ -21,11 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={roboto.className}>
+      <body className={`${roboto.className} min-h-[100vh]`}>
         <Providers>
           <Header />
         </Providers>
-        {children}
+        <main className='flex justify-center'>
+          {children}
+        </main>
       </body>
     </html>
   )
