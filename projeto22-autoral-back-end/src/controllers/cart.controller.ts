@@ -12,8 +12,8 @@ export class CartController {
 
     @UseGuards(AuthGuard)
     @Get()
-    async getCartById(@Request() { userId, body }: UserReq) {
-        await this.cartService.getCartById(userId)
+    async getCartById(@Request() { userId }: UserReq) {
+        return await this.cartService.getCartById(userId)
     }
 
     @UseGuards(AuthGuard)
