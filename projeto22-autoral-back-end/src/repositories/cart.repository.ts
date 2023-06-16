@@ -1,6 +1,6 @@
 import { PrismaService } from "@/config/prisma.service";
 import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
+import { Prisma, cart_product_status } from "@prisma/client";
 
 @Injectable()
 export class CartRepository {
@@ -34,14 +34,19 @@ export class CartRepository {
                                     select: {
                                         name: true,
                                     }
-                                }
-                            }
+                                },
+                            },
                         },
                     },
                 },
             },
             where: {
                 user_id: userId,
+                cart_products: {
+                    every: {
+                        status: 'IN_CART',
+                    }
+                }
             }
         });
 
@@ -72,6 +77,27 @@ export class CartRepository {
                 user_id: userId
             }
         })
+    }
+
+    async findProductVariationInCartByUser(cartId: number, productVariationId: number) {
+        return await this.prisma.cart_products.findFirst({
+            where: {
+                cart_id: cartId,
+                product_variation_id: productVariationId,
+                status: 'IN_CART',
+            }
+        })
+    }
+
+    async updateQuantity(cartProductId: number, quantity: number) {
+        return await this.prisma.cart_products.update({
+            data: {
+                quantity
+            },
+            where: {
+                id: cartProductId
+            }
+        });
     }
 
     async insertProducts(cart_products: Prisma.cart_productsUncheckedCreateInput) {

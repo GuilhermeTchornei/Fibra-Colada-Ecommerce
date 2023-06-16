@@ -11,7 +11,9 @@ export class CartService {
     }
 
     async insertProduct(userId: number, productData: CartProductDto) {
-        const {id: cart_id} = await this.cartRepository.findCartByUser(userId);
-        await this.cartRepository.insertProducts({...productData, cart_id})
+        const { id: cart_id } = await this.cartRepository.findCartByUser(userId);
+        const sameVariation = await this.cartRepository.findProductVariationInCartByUser(cart_id, productData.product_variation_id);
+        if (sameVariation) await this.cartRepository.updateQuantity(sameVariation.id, productData.quantity || sameVariation.quantity + 1);
+        else await this.cartRepository.insertProducts({ ...productData, cart_id })
     }
 }
