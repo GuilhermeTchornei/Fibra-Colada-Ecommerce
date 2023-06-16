@@ -1,12 +1,10 @@
 "use client"
-import { NewUser, useSignup } from "@/Hooks/Auth";
-import { useAuth } from "@/contexts/AuthOverlayContext";
+import { NewUser, useSignup } from "@/hooks/Auth";
 import { Button, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
 
 export default function Signup({ setHaveAccount }: { setHaveAccount: () => void }) {
-    const { setShowOverlay } = useAuth();
     const [newUser, setNewUser] = useState<NewUser>({
         name: '',
         phone: '',
@@ -20,9 +18,8 @@ export default function Signup({ setHaveAccount }: { setHaveAccount: () => void 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
-            const response = await useSignup(newUser);
+            await useSignup(newUser);
             setHaveAccount();
-            console.log(response);
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 setErrorMessage(error.response?.data.message);
