@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 @Injectable()
-export class CartRepository{
+export class CartRepository {
     constructor(private readonly prisma: PrismaService) { }
 
     async findCartWithProductsByUserId(userId: number) {
@@ -19,7 +19,6 @@ export class CartRepository{
                                     select: {
                                         image: true,
                                     },
-                                    take: 1,
                                 },
                                 size: {
                                     select: {
@@ -38,8 +37,8 @@ export class CartRepository{
                                 }
                             }
                         },
-                    }
-                }
+                    },
+                },
             },
             where: {
                 user_id: userId,
@@ -47,17 +46,23 @@ export class CartRepository{
         });
 
         if (!cart) return null;
+        const products = cart.cart_products.map(p => ({
+            id: p.product_variation_id,
+            quantity: p.quantity,
+            price: p.product_variation.price / 100,
+            amount: (p.product_variation.price * p.quantity) / 100,
+            name: p.product_variation.product.name,
+            size: p.product_variation.size.size,
+            stamp: p.product_variation.stamp.name,
+            image: p.product_variation.products_variations_images[0].image,
+        }));
+
+        let totalAmount = products.reduce((acc, {amount}) => acc + amount, 0);
 
         return {
             id: cart.id,
-            products: cart.cart_products.map(p => ({
-                id: p.product_variation_id,
-                quantity: p.quantity,
-                name: p.product_variation.product.name,
-                size: p.product_variation.size.size,
-                stamp: p.product_variation.stamp.name,
-                image: p.product_variation.products_variations_images[0].image,
-            }))
+            products,
+            totalAmount,
         };
     }
 

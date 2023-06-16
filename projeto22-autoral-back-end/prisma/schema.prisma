@@ -80,7 +80,7 @@ model products_variations_images {
   id                   Int                 @id @default(autoincrement())
   product_variation_id Int
   product_variation    products_variations @relation(fields: [product_variation_id], references: [id], onDelete: Cascade)
-  image                String              @unique @db.VarChar()
+  image                String              @db.VarChar()
 }
 
 model carts {

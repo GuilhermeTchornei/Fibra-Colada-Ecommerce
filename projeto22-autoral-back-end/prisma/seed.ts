@@ -4,6 +4,13 @@ const prisma = new PrismaClient();
 
 async function main() {
     await prisma.products.deleteMany();
+    await prisma.products_variations.deleteMany();
+    await prisma.products_variations_images.deleteMany();
+    await prisma.sizes.deleteMany();
+    await prisma.stamps.deleteMany();
+    await prisma.cart_products.deleteMany();
+    await prisma.categories.deleteMany();
+
 
     const p = await prisma.sizes.create({
         data: {
@@ -151,8 +158,20 @@ async function main() {
                 size_id: g.id,
                 stamp_id: greenStamp.id,
             }
-        ]
+        ],
     });
+
+    const variations = await prisma.products_variations.findMany({});
+
+    variations.map(async v => {
+        await prisma.products_variations_images.create({
+            data: {
+                image: '/Products/IMG_4904_jpg.jpg',
+                product_variation_id: v.id
+            }
+        })
+    })
+
 
     console.log('Seed data created successfully');
 
