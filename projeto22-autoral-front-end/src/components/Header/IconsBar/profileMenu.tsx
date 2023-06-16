@@ -1,11 +1,11 @@
 "use client"
 import { useAuth } from "@/contexts/AuthOverlayContext";
-import { useUser } from "@/contexts/UserContext";
+import UseUser from "@/contexts/UserContext";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 export default function ProfileMenu({ setOpenProfile }: InferGetStaticPropsType<GetStaticProps>) {
     const { setShowOverlay } = useAuth();
-    const { user } = useUser();
+    const { user } = UseUser();
 
 
     return (

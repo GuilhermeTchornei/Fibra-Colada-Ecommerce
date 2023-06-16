@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import CartResume from './cartResume';
 import { useRouter } from 'next/navigation';
 import UseCartProducts from '@/hooks/Cart/useCartProducts';
-import { useUser } from '@/contexts/UserContext';
+import UseUser from '@/contexts/UserContext';
+import UseCartUpdate from '@/contexts/CartContext';
 
 export default function IconsBar() {
-    const { user } = useUser();
+    const { setUpdateCart, updateCart } = UseCartUpdate();
     const [openProfile, setOpenProfile] = useState(false);
     const [openCart, setOpenCart] = useState(false);
     const router = useRouter();
@@ -16,11 +17,15 @@ export default function IconsBar() {
     const {cart, getCart, loading, error} = UseCartProducts();
 
     useEffect(() => {
-        const getCartAsync = async () => {
-            await getCart();
+        if (updateCart) {
+            console.log('teste');
+            const getCartAsync = async () => {
+                await getCart();
+            }
+            getCartAsync();
+            setUpdateCart(false);
         }
-        getCartAsync();
-    }, [user]);
+    }, [updateCart]);
 
     function handleClick() {
         router.push('/cart');

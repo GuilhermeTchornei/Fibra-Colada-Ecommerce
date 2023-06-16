@@ -14,7 +14,7 @@ interface UserContextInterface {
 
 const UserContext = createContext<UserContextInterface | undefined>(undefined);
 
-export default function UserProvider({ children }: ScriptProps) {
+export function UserProvider({ children }: ScriptProps) {
     const [user, setUser] = useState<User>();
 
     return (
@@ -24,7 +24,7 @@ export default function UserProvider({ children }: ScriptProps) {
     )
 }
 
-export function useUser(): UserContextInterface {
+export default function UseUser(): UserContextInterface {
     const userContext = useContext(UserContext);
 
     if (!userContext) throw new Error('useUser must be used within an UserProvider');
