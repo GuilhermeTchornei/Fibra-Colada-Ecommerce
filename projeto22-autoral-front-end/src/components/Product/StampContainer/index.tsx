@@ -1,5 +1,7 @@
 "use client"
 import { Button } from "@mui/material";
+import Image from "next/image";
+import cinza from '@/Stamp/cinza.jpg';
 
 interface props {
     selectedStamp: string,
@@ -16,9 +18,11 @@ export default function StampContainer({ possiblesStamps, selectedStamp, setSele
                 {
                     stamps.map((s, i) => {
                         return (
-                            <Button key={i} variant="text" disabled={!possiblesStamps.includes(s.name)}
-                                className={`h-9 bg-${s.image} ring-orange ring-offset-2 ${selectedStamp === s.name ? 'ring' : ''}`}
-                                onClick={() => setSelectedStamp(s.name)} />
+                            <Button key={i} variant="outlined" disabled={!possiblesStamps.includes(s.name)}
+                                className={`h-9 p-0 overflow-hidden shadow-sm ring-orange ring-offset-2 ${selectedStamp === s.name ? 'ring' : ''}`}
+                                onClick={() => setSelectedStamp(s.name)} >
+                                    <Image src={possiblesStamps.includes(s.name) ? s.image : cinza} alt="" width={100} height={100} className="w-full h-full" />
+                            </Button>
                         )
                     })
                 }

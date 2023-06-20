@@ -4,7 +4,7 @@ import Product from "../ProductButton";
 import { useEffect, useState } from "react";
 
 export default function ProductsContainer() {
-    const [products, setProducts] = useState<[{id: number, name: string, price: number}] | null>(null);
+    const [products, setProducts] = useState<[{id: number, name: string, price: number, image: string}] | null>(null);
 
     useEffect(() => {
         const prod = async () => {
@@ -24,7 +24,7 @@ export default function ProductsContainer() {
             <div className="h-80 gap-3 overflow-hidden flex">
                 {
                     products ?
-                        products.map(p => <Product key={p.id} id={p.id} name={p.name} price={p.price} />) :
+                        products.map(p => <Product key={p.id} id={p.id} name={p.name} price={p.price} image={p.image} />) :
                         null
                 }
             </div>

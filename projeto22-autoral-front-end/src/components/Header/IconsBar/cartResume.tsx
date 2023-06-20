@@ -32,7 +32,7 @@ export default function CartResume({ setOpenCart, cart, loading }: props) {
                 ></div>
                 <div className="flex flex-col text-black text-xs p-4 gap-y-2">
                     {
-                        loading || !cart ?
+                        loading || !cart || cart.products.length <= 0 ?
                             <p>Nenhum item no carrinho</p> :
                             <>
                                 {

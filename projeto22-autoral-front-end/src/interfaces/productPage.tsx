@@ -6,13 +6,17 @@ export default interface ProductPageInterface {
         name: string,
         image: string,
     }],
-    variations: [{
+    productStamp: [{
         id: number,
-        price: number,
-        size: string,
         stampName: string,
         stampImage: string,
         images: string[],
-        enabled: boolean
+        enabled: boolean,
+        variations: [{
+            id: number,
+            price: number,
+            size: string,
+            enabled: boolean
+        }]
     }]
 }

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import CartResume from './cartResume';
 import { useRouter } from 'next/navigation';
 import UseCartProducts from '@/hooks/Cart/useCartProducts';
-import UseUser from '@/contexts/UserContext';
 import UseCartUpdate from '@/contexts/CartContext';
 
 export default function IconsBar() {
@@ -18,7 +17,6 @@ export default function IconsBar() {
 
     useEffect(() => {
         if (updateCart) {
-            console.log('teste');
             const getCartAsync = async () => {
                 await getCart();
             }

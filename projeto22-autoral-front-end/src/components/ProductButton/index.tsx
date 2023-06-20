@@ -1,21 +1,22 @@
 "use client"
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface Product {
     id: number,
     name: string,
-    images?: string[],
+    image: string,
     price: number,
 }
 
-export default function Product({ id, name, price }: Product) {
+export default function Product({ id, name, price, image }: Product) {
     const router = useRouter();
 
     return (
         <button onClick={() => router.push(`products/${id}`)} className="h-[300px] w-40 flex flex-col shadow-md rounded-lg py-2 bg-white cursor-pointer">
-            <div className="h-52 w-full bg-center bg-cover bg-[url('/Products/328131806_479697417708635_7336395499061559791_n.jpg')]">
-
+            <div className="h-52 w-full">
+                <Image src={image} alt="" width={100} height={100} className="h-52 w-auto object-cover" />
             </div>
             <p className="h-8 text-sm leading-4 text-black px-2 my-2 line-clamp-2">
                 {name}

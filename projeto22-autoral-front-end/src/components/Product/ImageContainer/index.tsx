@@ -1,22 +1,35 @@
 "use client"
 import Image from "next/image";
-import image from "@/Products/325995815_747855136935675_8926260453479837050_n.jpg";
 
+interface props {
+    variations: {
+        images: string[],
+        stamp: string,
+    }[],
+    selectecStamp: string,
+    setSelectecStamp: (data: string) => void,
+}
 
-export default function ImageContainer() {
+export default function ImageContainer({ variations, selectecStamp, setSelectecStamp }: props) {
+    const showImage = variations.find(v => v.stamp === selectecStamp)?.images[0] || variations[0].images[0];
+
     return (
         <div className="flex">
             <div className="h-[600px] w-[100px] overflow-hidden overflow-y-visible scrollr gap-y-1">
-                <button><Image src={image} alt="" height={100} /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-                <button><Image src={image} alt="" height={100} className="opacity-50" /></button>
-
+                {
+                    variations.map((v, i) => {
+                        return v.images.map((img, _i) => {
+                            return (
+                                <button key={`${i}${_i}`}>
+                                    <Image src={img} alt="" height={100} width={100}
+                                        className={`w-auto h-auto ${showImage === img ? '' : 'opacity-50'}`} />
+                                </button>
+                            )
+                        })
+                    })
+                }
             </div>
-            <Image src={image} alt="" height={600} />
+            <Image src={showImage} alt="" height={600} width={600} className="" />
         </div>
     )
 }

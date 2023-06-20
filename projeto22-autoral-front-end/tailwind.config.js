@@ -11,7 +11,12 @@ module.exports = {
         'orange': '#f27a28',
         'dark-orange': '#c05b18',
         'green': '#00a390',
-        'dark-green': '#008A7A'
+        'dark-green': '#008a7a',
+        'blue': '#0b10e3',
+        'yellow': '#fabe00',
+        'pink': '#fa00bd',
+        'fuchsia': '#d084fa',
+        'red': '#fa0b00'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

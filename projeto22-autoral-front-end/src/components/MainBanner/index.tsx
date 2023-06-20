@@ -1,5 +1,5 @@
-import banner from '@/Banner/adam-kontor-59MCbsZZVAc-unsplash.jpg'
-import Image from 'next/image'
+import banner from '@/Banner/adam-kontor-59MCbsZZVAc-unsplash.jpg';
+import Image from 'next/image';
 
 export default function MainBanner() {
     return (
