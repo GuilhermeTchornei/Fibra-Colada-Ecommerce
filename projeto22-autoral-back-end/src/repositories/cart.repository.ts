@@ -1,6 +1,6 @@
 import { PrismaService } from "@/config/prisma.service";
 import { Injectable } from "@nestjs/common";
-import { Prisma, cart_product_status } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class CartRepository {
@@ -11,58 +11,43 @@ export class CartRepository {
             include: {
                 cart_products: {
                     include: {
-                        product_variation: {
+                        products_variations: {
                             select: {
-                                id: true,
                                 price: true,
-                                products_variations_images: {
+                                size: true,
+                                products_stamps: {
                                     select: {
-                                        image: true,
+                                        product: true,
+                                        stamp: true,
+                                        products_images: true,
                                     },
-                                },
-                                size: {
-                                    select: {
-                                        size: true,
-                                    }
-                                },
-                                stamp: {
-                                    select: {
-                                        name: true,
-                                    }
-                                },
-                                product: {
-                                    select: {
-                                        name: true,
-                                    }
-                                },
-                            },
+                                }
+                            }
                         },
+                    },
+                    where: {
+                        status: 'IN_CART',
                     },
                 },
             },
             where: {
                 user_id: userId,
-                cart_products: {
-                    every: {
-                        status: 'IN_CART',
-                    }
-                }
             }
         });
 
         if (!cart) return null;
         const products = cart.cart_products.map(p => ({
-            id: p.product_variation_id,
+            id: p.products_variations_id,
             quantity: p.quantity,
-            price: p.product_variation.price / 100,
-            amount: (p.product_variation.price * p.quantity) / 100,
-            name: p.product_variation.product.name,
-            size: p.product_variation.size.size,
-            stamp: p.product_variation.stamp.name,
-            image: p.product_variation.products_variations_images[0].image,
+            price: p.products_variations.price / 100,
+            amount: (p.products_variations.price * p.quantity) / 100,
+            name: p.products_variations.products_stamps.product.name,
+            size: p.products_variations.size.size,
+            stamp: p.products_variations.products_stamps.stamp.name,
+            image: p.products_variations.products_stamps.products_images[0].image,
         }));
 
-        let totalAmount = products.reduce((acc, {amount}) => acc + amount, 0);
+        let totalAmount = products.reduce((acc, { amount }) => acc + amount, 0);
 
         return {
             id: cart.id,
@@ -83,7 +68,7 @@ export class CartRepository {
         return await this.prisma.cart_products.findFirst({
             where: {
                 cart_id: cartId,
-                product_variation_id: productVariationId,
+                products_variations_id: productVariationId,
                 status: 'IN_CART',
             }
         })

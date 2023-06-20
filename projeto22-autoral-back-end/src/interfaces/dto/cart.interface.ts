@@ -8,7 +8,7 @@ export class CartProductDto {
     @Type(() => Number)
     @IsInt()
     @IsNotEmpty()
-    product_variation_id: number;
+    products_variations_id: number;
 
     @Type(() => Number)
     @IsNumber()
