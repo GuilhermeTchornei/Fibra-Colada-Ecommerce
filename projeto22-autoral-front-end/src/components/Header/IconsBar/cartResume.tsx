@@ -43,7 +43,7 @@ export default function CartResume({ setOpenCart, cart, loading }: props) {
                                         )
                                     })
                                 }
-                                <p className="font-bold text-lg flex justify-between items-center"><span>Valor total:</span>{UsePrice(cart.totalAmount)}</p>
+                                <p className="font-bold text-lg flex justify-between items-center">Valor total:<span className="">{UsePrice(cart.totalAmount)}</span></p>
                                 <Button onClick={handleClick} variant="contained" className="bg-orange hover:bg-dark-orange">Finalizar Compra</Button>
                             </>
                     }

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import UseSaveCartProduct from "@/hooks/Cart/useSaveCartProduct";
 import UseCartUpdate from "@/contexts/CartContext";
 import UsePrice from "@/hooks/usePrice";
+import QuantityContainer from "@/components/Product/QuantityContainer";
 
 export default function ProductPage({ params }: { params: { productId: number } }) {
     const { product, loading, error } = useOneProduct(params.productId);
@@ -16,6 +17,7 @@ export default function ProductPage({ params }: { params: { productId: number } 
     const [possiblesStamps, setPossiblesStamps] = useState<string[]>([]);
     const [selectedSize, setSelectedSize] = useState<string>('');
     const [possiblesSizes, setPossiblesSizes] = useState<string[]>([]);
+    const [quantity, setQuantity] = useState<number>(1);
     const { postProduct } = UseSaveCartProduct();
     const { setUpdateCart } = UseCartUpdate();
 
@@ -51,13 +53,16 @@ export default function ProductPage({ params }: { params: { productId: number } 
 
     if (loading || product === undefined) return null;
 
+    const actualProductStamp = product.productStamp[variation?.stampIndex || 0];
+    const actualVariation = actualProductStamp.variations[variation?.variationIndex || 0];
+
     async function handleClick() {
         try {
             if (selectedStamp && selectedSize && product && variation) {
                 console.log(product.productStamp[variation.stampIndex || 0].variations[variation.variationIndex]);
                 const status = await postProduct({
                     products_variations_id: product.productStamp[variation.stampIndex || 0].variations[variation.variationIndex].id,
-                    quantity: 1
+                    quantity
                 });
                 setUpdateCart(true);
             }
@@ -83,6 +88,8 @@ export default function ProductPage({ params }: { params: { productId: number } 
                     <br />
                     <StampContainer possiblesStamps={possiblesStamps} selectedStamp={selectedStamp}
                         setSelectedStamp={(stamp: string) => setSelectedStamp(stamp)} stamps={product.stamps} />
+                    <br />
+                    <QuantityContainer productPrice={actualVariation.price} quantity={quantity} setQuantity={(data: number) => setQuantity(data)} />
                     <div></div>
                     <div className="w-full h-[1px] bg-gray-300 self-center my-4" />
                     <Button onClick={handleClick} variant="contained" className="bg-orange hover:bg-dark-orange" disabled={variation === undefined}>

@@ -13,7 +13,7 @@ interface props {
 export default function StampContainer({ possiblesStamps, selectedStamp, setSelectedStamp, stamps }: props) {
     return (
         <div className="flex flex-col">
-            <p className="font-medium text-sm">Escolha a estampa:</p>
+            <p className="font-medium text-sm">Escolha a estampa: { selectedStamp }</p>
             <div className="flex flex-wrap gap-2 my-1">
                 {
                     stamps.map((s, i) => {
