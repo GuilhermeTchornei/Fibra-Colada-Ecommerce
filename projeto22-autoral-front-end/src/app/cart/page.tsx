@@ -9,6 +9,9 @@ import { useEffect } from "react";
 export default function Cart() {
     const { setUpdateCart, updateCart } = UseCartUpdate();
     const { cart, getCart, error, loading } = UseCartProducts();
+    const totalAmount = cart?.totalAmount;
+    const products = cart?.products;
+    const emptyCart = !totalAmount || !products || products.length <= 0
 
     useEffect(() => {
         if (updateCart) {
@@ -19,6 +22,7 @@ export default function Cart() {
             setUpdateCart(false);
         }
     }, [updateCart]);
+
 
     return (
         <div className="max-w-max w-full flex min-h-screen justify-between px-10 gap-8 mt-8">
@@ -31,11 +35,11 @@ export default function Cart() {
                 </div>
                 <div>
                     {
-                        loading || !cart || cart.products.length <= 0 ?
+                        emptyCart ?
                             <p>Nenhum item no carrinho</p> :
-                            cart.products.map(p => {
+                            products.map(p => {
                                 return (
-                                    <ProductCart product={p} />
+                                    <ProductCart key={p.id} product={p} />
                                 )
                             })
 
@@ -45,7 +49,7 @@ export default function Cart() {
             <div className="min-w-[250px] h-fit pb-5 px-5 border border-gray-300 rounded-lg flex flex-col gap-y-3">
                 <p className="text-lg font-semibold uppercase text-center mb-2">RESUMO DO PEDIDO</p>
                 {
-                    loading || !cart || cart.products.length <= 0 ?
+                    emptyCart ?
                         <p>Carrinho vazio</p> :
                         <>
                             <div className="flex justify-between">
@@ -63,7 +67,6 @@ export default function Cart() {
                             <Button variant="contained" className="bg-green hover:bg-dark-green">Concluir Pedido</Button>
                         </>
                 }
-
             </div>
         </div>
     )

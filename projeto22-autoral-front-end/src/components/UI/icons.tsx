@@ -8,4 +8,4 @@ import { red } from "@mui/material/colors";
 export const Person = () => { return <AccountCircleIcon className="h-auto w-auto" /> };
 export const Shopping = () => { return <LocalMallOutlinedIcon className="h-auto w-auto" /> };
 export const Search = () => { return <SearchIcon className="h-auto w-auto" /> };
-export const Remove = () => { return <DeleteOutlineIcon sx={{color: red[500]}} /> };
+export const Remove = () => { return <DeleteOutlineIcon sx={{ color: red[500] }} /> };

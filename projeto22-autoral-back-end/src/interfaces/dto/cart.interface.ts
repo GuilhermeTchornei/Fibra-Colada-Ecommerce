@@ -11,7 +11,14 @@ export class CartProductDto {
     products_variations_id: number;
 
     @Type(() => Number)
-    @IsNumber()
-    @IsOptional()
+    @IsInt()
+    @IsNotEmpty()
     quantity: number;
+}
+
+export class CartProductDeleteDto {
+    @Type(() => Number)
+    @IsInt()
+    @IsNotEmpty()
+    products_variations_id: number;
 }

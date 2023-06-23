@@ -21,18 +21,21 @@ export class CartRepository {
                                         stamp: true,
                                         products_images: true,
                                     },
-                                }
-                            }
+                                },
+                            },
                         },
                     },
                     where: {
                         status: 'IN_CART',
                     },
+                    orderBy: {
+                        id: "asc",
+                    }
                 },
             },
             where: {
                 user_id: userId,
-            }
+            },
         });
 
         if (!cart) return null;
@@ -74,20 +77,38 @@ export class CartRepository {
         })
     }
 
-    async updateQuantity(cartProductId: number, quantity: number) {
-        return await this.prisma.cart_products.update({
-            data: {
-                quantity
-            },
+    async upsertProducts(cart_products: Prisma.cart_productsUncheckedCreateInput) {
+        return await this.prisma.cart_products.upsert({
             where: {
-                id: cartProductId
+                id: cart_products.id,
+            },
+            update: {
+                quantity: cart_products.quantity,
+            },
+            create: {
+                cart_id: cart_products.cart_id,
+                products_variations_id: cart_products.products_variations_id,
+                quantity: cart_products.quantity
             }
         });
     }
 
-    async insertProducts(cart_products: Prisma.cart_productsUncheckedCreateInput) {
-        return await this.prisma.cart_products.create({
-            data: cart_products
-        });
+    async updateQuantity(id: number, quantity: number) {
+        return await this.prisma.cart_products.update({
+            where: {
+                id,
+            },
+            data: {
+                quantity
+            }
+        })
+    }
+
+    async deleteProduct(id: number) {
+        return await this.prisma.cart_products.delete({
+            where: {
+                id
+            }
+        })
     }
 }

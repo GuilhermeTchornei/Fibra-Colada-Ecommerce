@@ -15,5 +15,5 @@ export interface CartWithProductsInterface {
 
 export interface InsertCartProductInterface{
     product_variation_id: number,
-    quantity?: number,
+    quantity: number,
 }

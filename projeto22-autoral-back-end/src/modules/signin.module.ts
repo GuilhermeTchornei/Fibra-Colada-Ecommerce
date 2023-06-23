@@ -13,7 +13,7 @@ import configuration from "@/config/configuration";
         JwtModule.register({
             global: true,
             secret: configuration().secret_key,
-            signOptions: {expiresIn: '180s'},
+            signOptions: {expiresIn: '1day'},
         }),
     ],
     controllers: [SigninController],

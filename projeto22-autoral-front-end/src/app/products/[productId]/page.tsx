@@ -54,13 +54,16 @@ export default function ProductPage({ params }: { params: { productId: number } 
     async function handleClick() {
         try {
             if (selectedStamp && selectedSize && product && variation) {
-                const status = await postProduct({ products_variations_id: product.productStamp[variation.stampIndex || 0].variations[variation.variationIndex].id });
+                console.log(product.productStamp[variation.stampIndex || 0].variations[variation.variationIndex]);
+                const status = await postProduct({
+                    products_variations_id: product.productStamp[variation.stampIndex || 0].variations[variation.variationIndex].id,
+                    quantity: 1
+                });
                 setUpdateCart(true);
             }
         } catch (error) {
             console.log(error);
         }
-
     }
 
 
@@ -80,6 +83,7 @@ export default function ProductPage({ params }: { params: { productId: number } 
                     <br />
                     <StampContainer possiblesStamps={possiblesStamps} selectedStamp={selectedStamp}
                         setSelectedStamp={(stamp: string) => setSelectedStamp(stamp)} stamps={product.stamps} />
+                    <div></div>
                     <div className="w-full h-[1px] bg-gray-300 self-center my-4" />
                     <Button onClick={handleClick} variant="contained" className="bg-orange hover:bg-dark-orange" disabled={variation === undefined}>
                         Comprar
