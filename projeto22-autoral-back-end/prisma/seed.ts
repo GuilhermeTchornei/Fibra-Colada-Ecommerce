@@ -85,6 +85,42 @@ async function main() {
         },
     });
 
+    const beach = await prisma.categories.create({
+        data: {
+            name: 'Praia',
+        },
+    });
+
+    await prisma.main_categories.create({
+        data: {
+            category_id: beach.id,
+        }
+    });
+
+    const Fitness = await prisma.categories.create({
+        data: {
+            name: 'Fitness',
+        },
+    });
+
+    await prisma.main_categories.create({
+        data: {
+            category_id: Fitness.id,
+        }
+    });
+
+    const swim = await prisma.categories.create({
+        data: {
+            name: 'Natação',
+        },
+    });
+
+    await prisma.main_categories.create({
+        data: {
+            category_id: swim.id,
+        }
+    });
+
     const fitness = await prisma.categories.create({
         data: {
             name: 'Conjuntos Fitness'
@@ -107,8 +143,15 @@ async function main() {
         data: {
             name: 'Conjunto de Top e Bermuda',
             products_categories: {
-                create: {
-                    category_id: fitness.id
+                createMany: {
+                    data: [
+                        {
+                            category_id: fitness.id,
+                        },
+                        {
+                            category_id: Fitness.id,
+                        }
+                    ]
                 }
             }
         },
@@ -118,8 +161,15 @@ async function main() {
         data: {
             name: 'Biquini',
             products_categories: {
-                create: {
-                    category_id: biquinis.id
+                createMany: {
+                    data: [
+                        {
+                            category_id: biquinis.id
+                        },
+                        {
+                            category_id: beach.id,
+                        }
+                    ]
                 }
             }
         },
@@ -129,8 +179,15 @@ async function main() {
         data: {
             name: 'Shorts',
             products_categories: {
-                create: {
-                    category_id: shorts.id
+                createMany: {
+                    data: [
+                        {
+                            category_id: shorts.id
+                        },
+                        {
+                            category_id: Fitness.id,
+                        }
+                    ]
                 }
             }
         },

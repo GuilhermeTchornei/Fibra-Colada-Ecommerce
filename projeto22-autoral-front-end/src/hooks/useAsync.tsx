@@ -13,7 +13,7 @@ export default function useAsync<T>(handler: (...args: any | null) => Promise<T>
             const _data = await handler(...args);
             setData(_data);
             setLoading(false);
-            return _data;
+            return _data as T;
         }
         catch (err: any) {
             setError(err);

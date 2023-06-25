@@ -2,7 +2,7 @@ import UserReq from "@/interfaces/UserRequest.interface";
 import { CartProductDeleteDto, CartProductDto } from "@/interfaces/dto/cart.interface";
 import { AuthGuard } from "@/middlewares/auth.guard";
 import { CartService } from "@/services/cart.service";
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Next, Param, Patch, Post, Put, Query, Req, Request, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Patch, Post, Query, Req, Request, UseGuards } from "@nestjs/common";
 
 @Controller('cart')
 export class CartController {

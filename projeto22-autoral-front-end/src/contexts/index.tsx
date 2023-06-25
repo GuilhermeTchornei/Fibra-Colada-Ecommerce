@@ -3,16 +3,20 @@ import AuthProvider from "./AuthOverlayContext"
 import { ScriptProps } from "next/script"
 import { UserProvider } from "./UserContext"
 import { CartProvider } from "./CartContext"
+import { ThemeProvider } from "@mui/material"
+import { theme } from "./MUIThemeProvider"
 
 
 export default function Providers({ children }: ScriptProps) {
     return (
-        <UserProvider>
-            <AuthProvider>
-                <CartProvider>
-                    {children}
-                </CartProvider>
-            </AuthProvider>
-        </UserProvider>
+        <ThemeProvider theme={theme}>
+            <UserProvider>
+                <AuthProvider>
+                    <CartProvider>
+                        {children}
+                    </CartProvider>
+                </AuthProvider>
+            </UserProvider>
+        </ThemeProvider>
     )
 }

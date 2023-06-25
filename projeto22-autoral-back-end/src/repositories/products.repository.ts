@@ -28,7 +28,7 @@ export class ProductsRepository {
         return products.map(p => ({
             id: p.id,
             name: p.name,
-            price: p.products_stamps[0].products_variations[0].price,
+            price: p.products_stamps[0].products_variations[0].price / 100,
             image: p.products_stamps[0].products_images[0].image,
         }))
     };

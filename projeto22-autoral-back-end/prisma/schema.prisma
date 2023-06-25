@@ -39,6 +39,13 @@ model categories {
   id                  Int                   @id @default(autoincrement())
   name                String                @unique @db.VarChar(20)
   products_categories products_categories[]
+  main_categories     main_categories[]
+}
+
+model main_categories {
+  id          Int        @id @default(autoincrement())
+  category_id Int        @unique
+  categories  categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
 }
 
 model products_categories {

@@ -24,8 +24,7 @@ export default function RootLayout({
       <body className={`${roboto.className} min-h-[100vh]`}>
         <Providers>
           <Header />
-
-          <main className='flex justify-center'>
+          <main className='flex justify-center pb-6'>
             {children}
           </main>
         </Providers>

@@ -1,6 +1,6 @@
 import api from "@/config/api";
 import useAsync from "../useAsync";
-import apiProduct from "@/services/products";
+import apiProduct from "@/services/apiProducts";
 import ProductPageInterface from "@/interfaces/productPage";
 
 export async function useAllProducts() {
