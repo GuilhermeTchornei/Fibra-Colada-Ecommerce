@@ -5,7 +5,6 @@ import { cleanDb, seedDB } from '../helper';
 import { PrismaClient } from '@prisma/client';
 import { CategoriesModule } from '@/modules/categories.module';
 import { ISendFilteredProducts } from '@/interfaces/categories.interface';
-import { FilterDto } from '@/interfaces/dto/categories.interface';
 
 describe('Categories Route', () => {
     let app: INestApplication;
