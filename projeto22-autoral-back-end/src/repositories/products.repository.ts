@@ -1,4 +1,5 @@
 import { PrismaService } from "@/config/prisma.service";
+import { ISendProduct } from "@/interfaces/products.interface";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -79,6 +80,6 @@ export class ProductsRepository {
                     enabled: v.enabled,
                 }))
             }))
-        }
+        } as ISendProduct;
     }
 }

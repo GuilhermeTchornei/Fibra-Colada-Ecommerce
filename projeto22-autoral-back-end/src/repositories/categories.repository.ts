@@ -1,4 +1,5 @@
 import { PrismaService } from "@/config/prisma.service";
+import { ISendFilteredProducts } from "@/interfaces/categories.interface";
 import { FilterDto } from "@/interfaces/dto/categories.interface";
 import { Injectable } from "@nestjs/common";
 
@@ -76,7 +77,7 @@ export class CategoriesRepository {
             }
         });
 
-        const _products = products.map(p => ({
+        const _products: ISendFilteredProducts[] = products.map(p => ({
             id: p.product.id,
             name: p.product.name,
             productStampId: p.id,

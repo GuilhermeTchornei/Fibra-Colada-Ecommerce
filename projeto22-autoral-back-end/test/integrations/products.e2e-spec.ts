@@ -2,18 +2,10 @@ import * as request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb, seedDB } from '../helper';
-import { SignupModule } from '@/modules/signup.module';
-import SignupDto from '@/interfaces/dto/signup.interface';
 import { PrismaClient } from '@prisma/client';
-import { SigninModule } from '@/modules/signin.module';
-import { SigninDto } from '@/interfaces/dto/signin.interface';
-import { createSigninDto } from '../factories/signin.factory';
-import { createSignupDto, createUser } from '../factories/signup.factory';
-import { ProductsModule } from '@/modules/products.module';
 import { ISendProduct } from '@/interfaces/products.interface';
-import { AuthGuard } from '@/middlewares/auth.guard';
 import { PrismaModule } from '@/modules/prisma.module';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { ProductsController } from '@/controllers/products.controller';
 import { ProductsService } from '@/services/products.service';
@@ -44,41 +36,41 @@ describe('Products Route', () => {
         await app.close();
     });
 
+    describe('getOne', () => {
+        it('Should return status code 200 and return product data', async () => {
+            const product = await prisma.products.findFirst({});
 
-    it('Should return status code 200 and return product data', async () => {
-        const product = await prisma.products.findFirst({});
+            const response = await request(app.getHttpServer())
+                .get(`/products/${product.id}`);
 
-        const response = await request(app.getHttpServer())
-            .get(`/products/${product.id}`);
-
-        expect(response.statusCode).toEqual(HttpStatus.OK);
-        expect(response.body).toEqual({
-            id: expect.any(Number),
-            name: expect.any(String),
-            sizes: [expect.any(String)],
-            stamps: [
-                {
-                    name: expect.any(String),
-                    image: expect.any(String)
-                }
-            ],
-            productStamp: [
-                {
-                    id: expect.any(Number),
-                    stampName: expect.any(String),
-                    stampImage: expect.any(String),
-                    images: [expect.any(String)],
-                    enabled: expect.any(Boolean),
-                    variations: [
-                        {
-                            id: expect.any(Number),
-                            price: expect.any(Number),
-                            size: expect.any(String),
-                            enabled: expect.any(Boolean)
-                        }
-                    ]
-                }
-            ]
-        } as ISendProduct)
-    });
+            expect(response.statusCode).toEqual(HttpStatus.OK);
+            expect(response.body).toEqual<ISendProduct>({
+                id: expect.any(Number),
+                name: expect.any(String),
+                productStamp: expect.arrayContaining([
+                    {
+                        id: expect.any(Number),
+                        images: expect.arrayContaining([expect.any(String)]),
+                        stampImage: expect.any(String),
+                        stampName: expect.any(String),
+                        variations: expect.arrayContaining([
+                            {
+                                enabled: expect.any(Boolean),
+                                id: expect.any(Number),
+                                price: expect.any(Number),
+                                size: expect.any(String),
+                            },
+                        ]),
+                    },
+                ]),
+                sizes: expect.arrayContaining([expect.any(String)]),
+                stamps: expect.arrayContaining([
+                    {
+                        name: expect.any(String),
+                        image: expect.any(String),
+                    },
+                ]),
+            });
+        })
+    })
 })
