@@ -12,7 +12,6 @@ import { createSignupDto, createUser } from '../factories/signup.factory';
 
 describe('Signin Route', () => {
     let app: INestApplication;
-    const prisma = new PrismaClient();
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
