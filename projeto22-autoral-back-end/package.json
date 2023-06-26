@@ -9,18 +9,21 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "dev": "nest start --watch",
+    "dev": "NODE_ENV=dev nest start --watch",
+    "dev:migration:run": "prisma migrate deploy",
+    "dev:migration:generate": "prisma migrate dev",
+    "dev:seed": "ts-node prisma/seed.ts",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --config ./test/jest.config.json",
+    "test:watch": "jest --config ./test/jest.config.json --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "dev:migration:run": "prisma migrate deploy",
-    "dev:migration:generate": "prisma migrate dev",
-    "dev:seed": "ts-node prisma/seed.ts"
+    "test:migration:run": "dotenv -e .env.test prisma migrate deploy",
+    "test:migration:generate": "dotenv -e .env.test prisma migrate dev",
+    "test:seed": "dotenv -e .env.test ts-node prisma/seed.ts"
   },
   "prisma": {
     "seed": "npm run -- ts-node ./prisma/seed.ts"
@@ -38,6 +41,8 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.2.1",
     "joi": "^17.9.2",
     "pg": "^8.11.0",
     "postgresql": "^0.0.1",
@@ -47,6 +52,7 @@
     "typeorm": "^0.3.16"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",

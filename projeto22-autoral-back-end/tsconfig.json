@@ -9,10 +9,10 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDirs": ["src", "tests"],
+    "rootDirs": ["src", "test"],
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
     },
     "plugins": [
       {
@@ -27,5 +27,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
   },
-  "include": ["src", "tests"],
+  "include": ["src", "test"],
 }

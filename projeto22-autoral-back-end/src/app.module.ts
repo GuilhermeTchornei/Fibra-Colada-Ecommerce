@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { indexModule } from './modules';
 
@@ -10,5 +10,6 @@ import { indexModule } from './modules';
       isGlobal: true,
     }),
     indexModule],
+  providers: [ConfigService],
 })
 export class AppModule { }

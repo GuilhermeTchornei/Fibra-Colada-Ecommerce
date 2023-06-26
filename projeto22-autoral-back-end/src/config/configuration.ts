@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv';
+
 export default () => ({
     port: parseInt(process.env.PORT, 10) || 3000,
     secret_key: process.env.JWT_SECRET,

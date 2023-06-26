@@ -11,7 +11,7 @@ export class SigninController {
     @Post()
     @UsePipes(new JoiValidationPipe(signinSchema))
     @HttpCode(HttpStatus.OK)
-    async Signup(@Body() user: SigninDto) {
+    async Signin(@Body() user: SigninDto) {
         return this.signinService.findFirst(user);
     }
 }
