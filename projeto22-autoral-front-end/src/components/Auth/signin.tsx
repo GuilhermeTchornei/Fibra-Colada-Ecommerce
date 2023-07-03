@@ -45,7 +45,7 @@ export default function Signin({ setHaveAccount }: { setHaveAccount: () => void 
             <TextField type="email" name='email' label="Email" value={login.email} onChange={handleChange} />
             <TextField type="password" name='password' label="Senha" value={login.password} onChange={handleChange} />
             <label className="text-red-500 text-sm">{errorMessage}</label>
-            <Button type="submit" variant="contained" className="bg-[#00A390] hover:bg-[#00af9b]">Entrar</Button>
+            <Button type="submit" variant="contained" className="bg-[#00A390] hover:bg-[#00af9b] font-bold text-white">Entrar</Button>
             <Typography variant="subtitle1" className="flex items-center justify-center mt-4">
                 Não tem conta?
                 <Button variant="text" className="font-bold text-[#00A390] hover:underline" onClick={setHaveAccount}>Cadastre-se</Button>

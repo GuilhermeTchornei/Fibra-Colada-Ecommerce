@@ -2,9 +2,9 @@ import * as request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb } from '../helper';
-import { SignupModule } from '@/modules/signup.module';
-import SignupDto from '@/interfaces/dto/signup.interface';
 import { PrismaClient } from '@prisma/client';
+import { UserModule } from '@/modules/user/user.module';
+import CreateUserDto from '@/modules/user/dtos/createUser.dto';
 
 describe('Signup Route', () => {
     let app: INestApplication;
@@ -12,7 +12,7 @@ describe('Signup Route', () => {
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [SignupModule],
+            imports: [UserModule],
         })
             .compile();
 
@@ -30,7 +30,7 @@ describe('Signup Route', () => {
 
 
     it('Should return 201 status code and add user to db', async () => {
-        const signupInput: SignupDto = {
+        const signupInput: CreateUserDto = {
             name: 'guilherme',
             email: 'gui@gui.com',
             password: 'gui',
@@ -48,7 +48,7 @@ describe('Signup Route', () => {
     });
 
     it('Should return conflict error if email already exists', async () => {
-        const signupInput: SignupDto = {
+        const signupInput: CreateUserDto = {
             name: 'guilherme',
             email: 'gui@gui.com',
             password: 'gui',

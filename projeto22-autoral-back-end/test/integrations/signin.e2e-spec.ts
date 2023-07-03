@@ -2,20 +2,18 @@ import * as request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb } from '../helper';
-import { SignupModule } from '@/modules/signup.module';
-import SignupDto from '@/interfaces/dto/signup.interface';
-import { PrismaClient } from '@prisma/client';
-import { SigninModule } from '@/modules/signin.module';
-import { SigninDto } from '@/interfaces/dto/signin.interface';
-import { createSigninDto } from '../factories/signin.factory';
-import { createSignupDto, createUser } from '../factories/signup.factory';
+import { AuthModule } from '@/modules/auth/auth.module';
+import CreateUserDto from '@/modules/user/dtos/createUser.dto';
+import { createSignupDto, createUser } from '@/modules/user/test/user.factory';
+import { AuthDto } from '@/modules/auth/dtos/auth.dto';
+import { createSigninDto } from '@/modules/auth/test/auth.factory';
 
 describe('Signin Route', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [SigninModule],
+            imports: [AuthModule],
         })
             .compile();
 
@@ -33,8 +31,8 @@ describe('Signin Route', () => {
 
 
     it('Should return status code 200 and return username and token', async () => {
-        const signupInput: SignupDto = createSignupDto();
-        const signinInput: SigninDto = {
+        const signupInput: CreateUserDto = createSignupDto();
+        const signinInput: AuthDto = {
             email: signupInput.email,
             password: signupInput.password
         };
@@ -55,7 +53,7 @@ describe('Signin Route', () => {
     });
 
     it('Should return conflict error if user doesnt exists', async () => {
-        const signinInput: SigninDto = createSigninDto();
+        const signinInput: AuthDto = createSigninDto();
 
         const response = await request(app.getHttpServer())
             .post('/signin')
@@ -65,8 +63,8 @@ describe('Signin Route', () => {
     });
 
     it('Should return conflict error if password is wrong', async () => {
-        const signupInput: SignupDto = createSignupDto();
-        const signinInput: SigninDto = {
+        const signupInput: CreateUserDto = createSignupDto();
+        const signinInput: AuthDto = {
             email: signupInput.email,
             password: 'password'
         };
