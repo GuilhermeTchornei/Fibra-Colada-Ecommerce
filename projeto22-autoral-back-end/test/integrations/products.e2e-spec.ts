@@ -3,13 +3,13 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb, seedDB } from '../helper';
 import { PrismaClient } from '@prisma/client';
-import { ISendProduct } from '@/interfaces/products.interface';
 import { PrismaModule } from '@/modules/prisma.module';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { ProductsController } from '@/controllers/products.controller';
-import { ProductsService } from '@/services/products.service';
-import { ProductsRepository } from '@/repositories/products.repository';
+import { ProductsController } from '@/modules/products/products.controller';
+import { ProductsService } from '@/modules/products/products.service';
+import { ProductsRepository } from '@/modules/products/products.repository';
+import { ISendProduct } from '@/modules/products/interfaces/sendProducts.interface';
 
 describe('Products Route', () => {
     let app: INestApplication;
