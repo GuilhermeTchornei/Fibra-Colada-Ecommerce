@@ -2,12 +2,12 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaModule } from "@/modules/prisma.module";
 import * as bcrypt from 'bcrypt';
 import { users } from "@prisma/client";
-import { UserService } from "@/user/user.service";
-import { UserRepository } from "@/user/user.repository";
-import { UserController } from "@/user/user.controller";
-import CreateUserDto from "@/user/dtos/createUser.dto";
 import { ConflictException } from "@nestjs/common";
 import { createSignupDto } from "./user.factory";
+import { UserService } from "../user.service";
+import { UserRepository } from "../user.repository";
+import { UserController } from "../user.controller";
+import CreateUserDto from "../dtos/createUser.dto";
 
 
 describe('Signup service', () => {

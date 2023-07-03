@@ -3,8 +3,8 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb } from '../helper';
 import { PrismaClient } from '@prisma/client';
-import { UserModule } from '@/user/user.module';
-import CreateUserDto from '@/user/dtos/createUser.dto';
+import { UserModule } from '@/modules/user/user.module';
+import CreateUserDto from '@/modules/user/dtos/createUser.dto';
 
 describe('Signup Route', () => {
     let app: INestApplication;

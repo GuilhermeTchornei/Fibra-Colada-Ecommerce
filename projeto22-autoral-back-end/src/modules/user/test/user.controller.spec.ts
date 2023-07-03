@@ -1,18 +1,18 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { createSignupDto } from "./user.factory";
 import { PrismaModule } from "@/modules/prisma.module";
-import { JoiValidationPipe } from "@/middlewares/validationPipe.middleware";
 import { signupSchema } from "@/schemas/signup.schema";
 import { BadRequestException } from "@nestjs/common";
-import { UserController } from "@/user/user.controller";
-import { UserService } from "@/user/user.service";
-import { UserRepository } from "@/user/user.repository";
-import CreateUserDto from "@/user/dtos/createUser.dto";
+import { UserController } from "../user.controller";
+import { UserService } from "../user.service";
+import { UserRepository } from "../user.repository";
+import CreateUserDto from "../dtos/createUser.dto";
+import { plainToInstance } from "class-transformer";
+import { ValidationError, validate } from "class-validator";
 
 describe('Signup Controller', () => {
     let controller: UserController;
     let service: UserService;
-    let pipe: JoiValidationPipe;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -30,10 +30,6 @@ describe('Signup Controller', () => {
     describe('Post Signup', () => {
         it('Should create a user', async () => {
             const mockUserInput: CreateUserDto = createSignupDto();
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(pipe.transform(mockUserInput, { type: "body", })).toMatchObject(mockUserInput);
 
             jest.spyOn(service, 'create').mockImplementation(jest.fn());
 
@@ -43,42 +39,40 @@ describe('Signup Controller', () => {
         });
 
         it('Should return Bad Request if body is empty', async () => {
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(() => pipe.transform({}, { type: "body", })).toThrowError(BadRequestException);
+            const dto = plainToInstance(CreateUserDto, {});
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
 
         it('Should return Bad Request if has more properties', async () => {
             const mockUserInput: CreateUserDto = createSignupDto();
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(() => pipe.transform({...mockUserInput, newProp: 1}, { type: "body", })).toThrowError(BadRequestException);
+            const dto = plainToInstance(CreateUserDto, { ...mockUserInput, newProp: 'new' });
+            const errors: ValidationError[] = await validate(dto, { forbidNonWhitelisted: true, whitelist: true });
+            expect(errors.length).not.toBe(0);
         });
 
         it('Should return Bad Request if has less properties', async () => {
             const mockUserInput: CreateUserDto = createSignupDto();
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(() => pipe.transform({email: mockUserInput.email }, { type: "body", })).toThrowError(BadRequestException);
+            const dto = plainToInstance(CreateUserDto, {
+                email: mockUserInput.email, name: mockUserInput.name,
+                password: mockUserInput.password, confirmPassword: mockUserInput.confirmPassword
+            } as CreateUserDto);
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
 
         it('Should return Bad Request if some property have the wrong type', async () => {
             const mockUserInput: CreateUserDto = createSignupDto();
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(() => pipe.transform({...mockUserInput, email: mockUserInput.name }, { type: "body", })).toThrowError(BadRequestException);
+            const dto = plainToInstance(CreateUserDto, { ...mockUserInput, email: 'email' });
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
 
         it('Should return Bad Request if passwords are different', async () => {
             const mockUserInput: CreateUserDto = createSignupDto();
-            const schema = signupSchema;
-            pipe = new JoiValidationPipe(schema);
-
-            expect(() => pipe.transform({...mockUserInput, confirmPassword: mockUserInput.name }, { type: "body", })).toThrowError(BadRequestException);
+            const dto = plainToInstance(CreateUserDto, { ...mockUserInput, confirmPassword: 'password' });
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
     })
 })

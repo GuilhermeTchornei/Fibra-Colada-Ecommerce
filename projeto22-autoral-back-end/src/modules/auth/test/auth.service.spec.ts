@@ -3,12 +3,12 @@ import { JwtService } from "@nestjs/jwt";
 import { users } from "@prisma/client";
 import * as bcrypt from 'bcrypt';
 import { ConflictException } from "@nestjs/common";
-import { AuthService } from "@/auth/auth.service";
-import { UserRepository } from "@/user/user.repository";
-import { AuthController } from "@/auth/auth.controller";
-import { AuthDto } from "@/auth/dtos/auth.dto";
 import { createSigninDto } from "./auth.factory";
 import { PrismaModule } from "@/modules/prisma.module";
+import { AuthService } from "../auth.service";
+import { UserRepository } from "@/modules/user/user.repository";
+import { AuthController } from "../auth.controller";
+import { AuthDto } from "../dtos/auth.dto";
 
 describe('Auth Service', () => {
     let service: AuthService;

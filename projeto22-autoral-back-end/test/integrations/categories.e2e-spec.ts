@@ -3,7 +3,7 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { cleanDb, seedDB } from '../helper';
 import { PrismaClient } from '@prisma/client';
-import { CategoriesModule } from '@/categories/categories.module';
+import { CategoriesModule } from '@/modules/categories/categories.module';
 
 describe('Categories Route', () => {
     let app: INestApplication;

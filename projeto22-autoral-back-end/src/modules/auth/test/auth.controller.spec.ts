@@ -2,14 +2,15 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaModule } from "@/modules/prisma.module";
 import { JwtService } from "@nestjs/jwt";
 import { BadRequestException } from "@nestjs/common";
-import { AuthController } from "@/auth/auth.controller";
-import { AuthService } from "@/auth/auth.service";
-import { UserRepository } from "@/user/user.repository";
-import { AuthDto } from "@/auth/dtos/auth.dto";
 import { createSigninDto } from "./auth.factory";
-import { createSignupDto } from "@/user/test/user.factory";
+import { ValidationError, validate, validateOrReject } from "class-validator";
+import { AuthController } from "../auth.controller";
+import { AuthService } from "../auth.service";
+import { UserRepository } from "@/modules/user/user.repository";
+import { AuthDto } from "../dtos/auth.dto";
+import { createSignupDto } from "@/modules/user/test/user.factory";
 import { plainToInstance } from "class-transformer";
-import { validate, validateOrReject } from "class-validator";
+import { faker } from "@faker-js/faker";
 
 describe('Auth Controller', () => {
     let controller: AuthController;
@@ -44,36 +45,43 @@ describe('Auth Controller', () => {
             expect(response).toEqual(result);
         });
 
-        it('Should return Bad Request if body is empty', async () => {
-            jest.spyOn(service, 'findFirst').mockImplementation(async () => null);
+        it('Should throw if body is empty', async () => {
             const dto = plainToInstance(AuthDto, {});
-            validateOrReject
-
-            console.log(await validate(dto));
-
-            expect(async () => await validate(dto)).toThrowError(BadRequestException);
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
 
-        it('Should return Bad Request if has more properties', async () => {
-            const mockUserInput: AuthDto = createSignupDto();
-            jest.spyOn(service, 'findFirst').mockImplementation(async () => null);
+        it('Should throw if has more properties', async () => {
+            const data = {
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+                test: 'test',
+            } as AuthDto;
 
-            expect(() => controller.Signin({...mockUserInput, newProp: ''} as AuthDto)).toThrowError(BadRequestException);
+            const dto = plainToInstance(AuthDto, data);
+            const errors: ValidationError[] = await validate(dto, { forbidNonWhitelisted: true, whitelist: true });
+            expect(errors.length).not.toBe(0);
         });
 
-        it('Should return Bad Request if has less properties', async () => {
-            const mockUserInput: AuthDto = createSignupDto();
-            jest.spyOn(service, 'findFirst').mockImplementation(async () => null);
+        it('Should throw if has less properties', async () => {
+            const data = {
+                email: faker.internet.email(),
+            } as AuthDto;
 
-            expect(() => controller.Signin({email: mockUserInput.email} as AuthDto)).toThrowError(BadRequestException);
+            const dto = plainToInstance(AuthDto, data);
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
 
-        it('Should return Bad Request if some property have the wrong type', async () => {
-            const mockUserInput: AuthDto = createSignupDto();
-            jest.spyOn(service, 'findFirst').mockImplementation(async () => null);
+        it('Should throw if some property have the wrong type', async () => {
+            const data = {
+                email: faker.internet.userName(),
+                password: faker.internet.password(),
+            } as AuthDto;
 
-            expect(() => controller.Signin({email: mockUserInput.password, password: mockUserInput.password} as AuthDto)).toThrowError(BadRequestException);
+            const dto = plainToInstance(AuthDto, data);
+            const errors: ValidationError[] = await validate(dto);
+            expect(errors.length).not.toBe(0);
         });
-
     })
 })
