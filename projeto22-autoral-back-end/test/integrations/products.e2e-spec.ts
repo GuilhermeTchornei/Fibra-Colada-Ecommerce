@@ -7,9 +7,9 @@ import { ISendProduct } from '@/interfaces/products.interface';
 import { PrismaModule } from '@/modules/prisma.module';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { ProductsController } from '@/controllers/products.controller';
-import { ProductsService } from '@/services/products.service';
-import { ProductsRepository } from '@/repositories/products.repository';
+import { ProductsController } from '@/products/products.controller';
+import { ProductsService } from '@/products/products.service';
+import { ProductsRepository } from '@/products/products.repository';
 
 describe('Products Route', () => {
     let app: INestApplication;

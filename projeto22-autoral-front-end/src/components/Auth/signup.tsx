@@ -43,7 +43,7 @@ export default function Signup({ setHaveAccount }: { setHaveAccount: () => void 
             <TextField type="password" label="Senha" name='password' value={newUser.password} onChange={handleChange} />
             <TextField type="password" label="Confirmar senha" name='confirmPassword' value={newUser.confirmPassword} onChange={handleChange} />
             <label className="text-red-500 text-sm">{errorMessage}</label>
-            <Button type="submit" variant="contained" className="bg-[#00A390] hover:bg-[#00af9b]">Entrar</Button>
+            <Button type="submit" variant="contained" className="bg-[#00A390] hover:bg-[#00af9b] font-bold text-white">Entrar</Button>
             <Typography variant="subtitle1" className="flex items-center justify-center mt-4">
                 Já possui conta?
                 <Button variant="text" className="font-bold text-[#00A390] hover:underline" onClick={setHaveAccount}>Entrar</Button>
