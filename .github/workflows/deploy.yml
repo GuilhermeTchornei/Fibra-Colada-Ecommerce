@@ -33,8 +33,8 @@ jobs:
       - name: Run docker compose down
         run: docker compose down # Não apague os volumes, senão o banco de dados de produção vais er limpo.
       - name: Delete Next docker volume
-        run: if docker volume ls --quiet --filter name=fibra-colada_next-volume | grep -q .; then docker volume rm fibra-colada_next-volume; fi
+        run: if docker volume ls --quiet --filter name=fibra-colada-ecommerce_next-volume | grep -q .; then docker volume rm fibra-colada-ecommerce_next-volume; fi
       - name: Delete postgres docker volume
-        run: docker volume rm fibra-colada_postgres-volume
+        run: docker volume rm fibra-colada-ecommerce_postgres-volume
       - name: Run docker compose up
         run: docker compose up --build -d
