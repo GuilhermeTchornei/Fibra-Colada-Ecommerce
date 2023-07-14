@@ -9,4 +9,6 @@ RUN npm i
 
 RUN npm run build
 
+RUN npm run dev:seed
+
 CMD ["npm", "start"]
