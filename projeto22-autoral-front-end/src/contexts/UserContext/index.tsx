@@ -2,7 +2,7 @@
 import { ScriptProps } from "next/script";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface User {
+export interface User {
     userName: string,
     token: string,
 }

@@ -21,10 +21,17 @@ export class ProductsController{
         return await this.productsService.FindAll();
     }
 
+    @Get('/news')
+    async getNews() {
+        return await this.productsService.FindNewProducts();
+    }
+
     @Get('/:id')
     async getOne(@Param('id') id: string) {
         const numberId = parseInt(id);
         if (isNaN(numberId)) throw new BadRequestException();
         return await this.productsService.FindUniqueById(numberId);
     }
+
+
 }

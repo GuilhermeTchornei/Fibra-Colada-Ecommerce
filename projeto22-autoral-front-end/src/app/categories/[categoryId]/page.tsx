@@ -27,7 +27,7 @@ export default function Category({ params }: { params: { categoryId: string } })
 
     return (
         <div className="max-w-max w-full flex min-h-screen flex-col justify-start px-10 gap-6">
-            <MainBanner />
+            <MainBanner data={mainBannerData} />
             <div className="flex gap-5">
                 <SideBar filterOptions={filterOptions} filters={filters} setFilters={(data: ISendFilter) => setFilters(data)} />
                 <div className="w-full h-fit flex flex-col">
@@ -37,3 +37,8 @@ export default function Category({ params }: { params: { categoryId: string } })
         </div>
     )
 }
+
+const mainBannerData = [{
+    image: '/Banner/adam-kontor-59MCbsZZVAc-unsplash.jpg',
+    text: 'Fazer a vida valer a pena',
+  }];

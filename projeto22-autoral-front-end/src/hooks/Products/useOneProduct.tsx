@@ -1,14 +1,8 @@
-import api from "@/config/api";
 import useAsync from "../useAsync";
 import apiProduct from "@/services/apiProducts";
 import ProductPageInterface from "@/interfaces/productPage";
 
-export async function useAllProducts() {
-    const response = await api.get('/products');
-    return response;
-}
-
-export function useOneProduct(id: number) {
+export default function useProductPage(id: number) {
     const {
         data: product,
         loading,

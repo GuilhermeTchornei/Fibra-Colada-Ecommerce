@@ -1,10 +1,12 @@
 "use client"
-import { NewUser, useSignup } from "@/hooks/Auth";
+import UseSignUp from "@/hooks/Auth/useSignup";
+import { NewUser } from "@/services/apiSignup";
 import { Button, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import React, { useState } from "react";
 
 export default function Signup({ setHaveAccount }: { setHaveAccount: () => void }) {
+    const { signUp } = UseSignUp();
     const [newUser, setNewUser] = useState<NewUser>({
         name: '',
         phone: '',
@@ -18,7 +20,7 @@ export default function Signup({ setHaveAccount }: { setHaveAccount: () => void 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
-            await useSignup(newUser);
+            await signUp(newUser);
             setHaveAccount();
         } catch (error: any) {
             if (error instanceof AxiosError) {

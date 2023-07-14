@@ -34,7 +34,7 @@ export class ProductsRepository {
         }))
     };
 
-    async findUnique(id: number) {
+    async FindUnique(id: number) {
         const product = await this.prisma.products.findUnique({
             include: {
                 products_stamps: {
@@ -81,5 +81,35 @@ export class ProductsRepository {
                 }))
             }))
         } as ISendProduct;
+    }
+
+    async FindNewProducts() {
+        const products = await this.prisma.products_stamps.findMany({
+            include: {
+                products_images: true,
+                stamp: true,
+                product: true,
+                products_variations: {
+                    select: {
+                        price: true
+                    },
+                    orderBy: {
+                        price: "asc",
+                    },
+                    take: 1,
+                }
+            },
+            orderBy: {
+                id: 'desc',
+            },
+            take: 10,
+        });
+
+        return products.map(p => ({
+            id: p.id,
+            name: p.product.name,
+            price: p.products_variations[0].price / 100,
+            image: p.products_images[0].image,
+        }))
     }
 }

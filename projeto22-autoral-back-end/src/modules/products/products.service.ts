@@ -10,6 +10,10 @@ export class ProductsService {
     }
 
     async FindUniqueById(id: number) {
-        return await this.productsRepository.findUnique(id);
+        return await this.productsRepository.FindUnique(id);
+    }
+
+    async FindNewProducts() {
+        return await this.productsRepository.FindNewProducts();
     }
 }

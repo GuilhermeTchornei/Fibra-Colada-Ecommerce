@@ -3,15 +3,15 @@ import SizesContainer from "@/components/Product/SizesContainer";
 import StampContainer from "@/components/Product/StampContainer";
 import { Button } from "@mui/material";
 import ImageContainer from "@/components/Product/ImageContainer";
-import { useOneProduct } from "@/hooks/Products";
 import { useEffect, useState } from "react";
 import UseSaveCartProduct from "@/hooks/Cart/useSaveCartProduct";
 import UseCartUpdate from "@/contexts/CartContext";
 import UsePrice from "@/hooks/usePrice";
 import QuantityContainer from "@/components/Product/QuantityContainer";
+import useProductPage from "@/hooks/Products/useOneProduct";
 
 export default function ProductPage({ params }: { params: { productId: number } }) {
-    const { product, loading, error } = useOneProduct(params.productId);
+    const { product, loading, error } = useProductPage(params.productId);
     const [variation, setVariation] = useState<{stampIndex: number, variationIndex: number}>();
     const [selectedStamp, setSelectedStamp] = useState<string>('');
     const [possiblesStamps, setPossiblesStamps] = useState<string[]>([]);

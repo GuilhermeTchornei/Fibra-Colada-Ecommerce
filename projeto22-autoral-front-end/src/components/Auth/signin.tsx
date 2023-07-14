@@ -1,13 +1,15 @@
 "use client"
-import { Login, useSignin } from "@/hooks/Auth";
 import { useAuth } from "@/contexts/AuthOverlayContext";
 import useUser from "@/contexts/UserContext";
 import { Button, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import UseCartUpdate from "@/contexts/CartContext";
+import { Login } from "@/services/apiAuth";
+import UseSignIn from "@/hooks/Auth/useSignin";
 
 export default function Signin({ setHaveAccount }: { setHaveAccount: () => void }) {
+    const { signIn } = UseSignIn();
     const { setShowOverlay } = useAuth();
     const { setUser } = useUser();
     const [login, setLogin] = useState<Login>({
@@ -20,8 +22,8 @@ export default function Signin({ setHaveAccount }: { setHaveAccount: () => void 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
-            const response = await useSignin(login);
-            setUser(response.data);
+            const response = await signIn(login);
+            setUser(response);
             setShowOverlay(false);
             setUpdateCart(true);
         } catch (error: any) {
